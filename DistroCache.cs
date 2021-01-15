@@ -10,14 +10,14 @@ namespace DistroCache
 {
     public class DistroCache : IDistroCache
     {
-        private readonly IDistributedCache distributedCache;
+        public IDistributedCache DistributedCache { get; }
 
         private readonly DistributedCacheEntryOptions entryOptions;
 
 
         public DistroCache(IDistributedCache cache, IOptions<DistributedCacheEntryOptions> options)
         {
-            this.distributedCache = cache;
+            this.DistributedCache = cache;
             this.entryOptions = options.Value;
         }
 
@@ -77,7 +77,7 @@ namespace DistroCache
         {
             var json = JsonSerializer.Serialize(newItems);
 
-            distributedCache.SetString(arrayKey, json, entryOptions);
+            DistributedCache.SetString(arrayKey, json, entryOptions);
         }
 
         public List<T> List<T>(string arrayKey) where T : CacheItem
@@ -87,7 +87,7 @@ namespace DistroCache
                 return new List<T> { };
             }
 
-            var json = distributedCache.GetString(arrayKey);
+            var json = DistributedCache.GetString(arrayKey);
 
             if (string.IsNullOrWhiteSpace(json))
             {
@@ -105,7 +105,7 @@ namespace DistroCache
                 return default;
             }
 
-            var json = distributedCache.GetString(key);
+            var json = DistributedCache.GetString(key);
 
             if (string.IsNullOrWhiteSpace(json))
             {
@@ -121,12 +121,12 @@ namespace DistroCache
         {
             var json = (typeof(T) == typeof(string)) ? item as string : JsonSerializer.Serialize(item);
 
-            distributedCache.SetString(key, json, entryOptions);
+            DistributedCache.SetString(key, json, entryOptions);
 
             return item;
         }
 
-        public void Remove(string key) => distributedCache.Remove(key);
+        public void Remove(string key) => DistributedCache.Remove(key);
 
 
         public async ValueTask<T> FindAsync<T>(string arrayKey, string Id) where T : CacheItem
@@ -194,7 +194,7 @@ namespace DistroCache
                 return new List<T> { };
             }
 
-            var json = distributedCache.GetString(arrayKey);
+            var json = DistributedCache.GetString(arrayKey);
 
             if (string.IsNullOrWhiteSpace(json))
             {
@@ -205,14 +205,14 @@ namespace DistroCache
         }
 
 
-        public async ValueTask<T> GetAsync<T>(string key, CancellationToken cancellationToken = default)
+        private async ValueTask<T> GetAsync<T>(string key, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(key))
             {
                 return default;
             }
 
-            var json = await distributedCache.GetStringAsync(key, cancellationToken);
+            var json = await DistributedCache.GetStringAsync(key, cancellationToken);
 
             if (string.IsNullOrWhiteSpace(json))
             {
@@ -222,16 +222,16 @@ namespace DistroCache
             return JsonSerializer.Deserialize<T>(json);
         }
 
-        public async ValueTask<T> SetAsync<T>(string key, T item, CancellationToken cancellationToken = default)
+        private async ValueTask<T> SetAsync<T>(string key, T item, CancellationToken cancellationToken = default)
         {
             var json = (typeof(T) == typeof(string)) ? item as string : JsonSerializer.Serialize(item);
 
-            await distributedCache.SetStringAsync(key, json, entryOptions, cancellationToken);
+            await DistributedCache.SetStringAsync(key, json, entryOptions, cancellationToken);
 
             return item;
         }
 
         public async ValueTask RemoveAsync(string key, CancellationToken cancellationToken = default) =>
-            await distributedCache.RemoveAsync(key, cancellationToken);
+            await DistributedCache.RemoveAsync(key, cancellationToken);
     }
 }

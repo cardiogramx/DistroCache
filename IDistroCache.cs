@@ -1,13 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace DistroCache
 {
     public interface IDistroCache
     {
         /// <summary>
-        /// Asynchronously updates an item in an existing cache dictionary
+        /// Gets the underlying <see cref="IDistributedCache"/> implementation.
+        /// </summary>
+        public IDistributedCache DistributedCache { get; }
+
+        /// <summary>
+        /// Asynchronously updates an item in an existing cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
@@ -16,7 +22,7 @@ namespace DistroCache
         ValueTask UpdateAsync<T>(string arrayKey, T newItem) where T : CacheItem;
 
         /// <summary>
-        /// Asynchronously finds an item in an existing cache dictionary
+        /// Asynchronously finds an item in an existing cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
@@ -25,7 +31,7 @@ namespace DistroCache
         ValueTask<T> FindAsync<T>(string arrayKey, string Id) where T : CacheItem;
 
         /// <summary>
-        /// Asynchronously adds an element to cache dictionary
+        /// Asynchronously adds an element to cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
@@ -34,7 +40,7 @@ namespace DistroCache
         ValueTask AddAsync<T>(string key, T item) where T : CacheItem;
 
         /// <summary>
-        /// Asynchronously adds elements to cache dictionary
+        /// Asynchronously adds elements to cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
@@ -42,7 +48,7 @@ namespace DistroCache
         ValueTask AddRangeAsync<T>(string arrayKey, IEnumerable<T> items) where T : CacheItem;
 
         /// <summary>
-        /// Asynchronously replaces elements in an existing cache dictionary with new elements
+        /// Asynchronously replaces elements in an existing cache dictionary with new elements.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
@@ -51,7 +57,7 @@ namespace DistroCache
         ValueTask ReplaceAsync<T>(string arrayKey, IEnumerable<T> items) where T : CacheItem;
 
         /// <summary>
-        /// Asynchronously list all items in an existing cache dictionary
+        /// Asynchronously list all items in an existing cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
@@ -59,7 +65,7 @@ namespace DistroCache
         ValueTask<List<T>> ListAsync<T>(string key) where T : CacheItem;
 
         /// <summary>
-        /// Asynchronously removes an item from an existing cache dictionary
+        /// Asynchronously removes an item from an existing cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
@@ -68,7 +74,7 @@ namespace DistroCache
         ValueTask RemoveAsync<T>(string arrayKey, T item) where T : CacheItem;
 
         /// <summary>
-        /// Asynchronously removes an existing cache dictionary
+        /// Asynchronously removes an existing cache dictionary.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="cancellationToken"></param>
@@ -77,7 +83,7 @@ namespace DistroCache
 
 
         /// <summary>
-        /// Updates an item in an existing cache dictionary
+        /// Updates an item in an existing cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
@@ -86,7 +92,7 @@ namespace DistroCache
         T Update<T>(string arrayKey, T newItem) where T : CacheItem;
 
         /// <summary>
-        /// Removes an item from an existing cache dictionary
+        /// Removes an item from an existing cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
@@ -94,14 +100,14 @@ namespace DistroCache
         void Remove<T>(string arrayKey, T newItem) where T : CacheItem;
 
         /// <summary>
-        /// Removes an existing cache dictionary
+        /// Removes an existing cache dictionary.
         /// </summary>
         /// <param name="key"></param>
         void Remove(string key);
 
 
         /// <summary>
-        /// Finds an item in an existing cache dictionary
+        /// Finds an item in an existing cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
@@ -110,7 +116,7 @@ namespace DistroCache
         T Find<T>(string arrayKey, string Id) where T : CacheItem;
 
         /// <summary>
-        /// Adds an element to cache dictionary
+        /// Adds an element to cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
@@ -119,7 +125,7 @@ namespace DistroCache
         void Add<T>(string key, T item) where T : CacheItem;
 
         /// <summary>
-        /// Adds elements to cache dictionary
+        /// Adds elements to cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
@@ -127,7 +133,7 @@ namespace DistroCache
         void AddRange<T>(string arrayKey, IEnumerable<T> items) where T : CacheItem;
 
         /// <summary>
-        /// Replaces elements in an existing cache dictionary with new elements
+        /// Replaces elements in an existing cache dictionary with new elements.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
@@ -136,13 +142,11 @@ namespace DistroCache
         void Replace<T>(string arrayKey, IEnumerable<T> items) where T : CacheItem;
 
         /// <summary>
-        /// List all items in an existing cache dictionary
+        /// List all items in an existing cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
         List<T> List<T>(string key) where T : CacheItem;
-
     }
-
 }
