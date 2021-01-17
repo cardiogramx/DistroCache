@@ -8,14 +8,14 @@ using Microsoft.Extensions.Options;
 
 namespace DistroCache
 {
-    public class DistroCache : IDistroCache
+    public class Distro : IDistro
     {
         public IDistributedCache DistributedCache { get; }
 
         private readonly DistributedCacheEntryOptions entryOptions;
 
 
-        public DistroCache(IDistributedCache cache, IOptions<DistributedCacheEntryOptions> options)
+        public Distro(IDistributedCache cache, IOptions<DistributedCacheEntryOptions> options)
         {
             this.DistributedCache = cache;
             this.entryOptions = options.Value;

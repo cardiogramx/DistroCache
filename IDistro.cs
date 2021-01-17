@@ -5,7 +5,7 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace DistroCache
 {
-    public interface IDistroCache
+    public interface IDistro
     {
         /// <summary>
         /// Gets the underlying <see cref="IDistributedCache"/> implementation.

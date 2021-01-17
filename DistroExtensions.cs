@@ -18,8 +18,8 @@ namespace DistroCache.Extensions.DependencyInjection
             //Configures IOptions<DistroCacheOption>
             services.Configure(entryOptions);
 
-            //Registers IAutoMapperBuilder in the service container
-            services.AddScoped<IDistroCache, DistroCache>();
+            //Adds Distro to the service container
+            services.AddScoped<IDistro, Distro>();
 
             return services;
         }
@@ -38,8 +38,8 @@ namespace DistroCache.Extensions.DependencyInjection
             //Configures IOptions<DistroCacheOption>
             services.Configure(entryOptions);
 
-            //Registers IAutoMapperBuilder in the service container
-            services.AddScoped<IDistroCache, DistroCache>();
+            //Adds Distro to the service container
+            services.AddScoped<IDistro, Distro>();
 
             return services;
         }
@@ -58,8 +58,8 @@ namespace DistroCache.Extensions.DependencyInjection
             //Configures IOptions<DistroCacheOption>
             services.Configure(entryOptions);
 
-            //Registers IAutoMapperBuilder in the service container
-            services.AddScoped<IDistroCache, DistroCache>();
+            //Adds Distro to the service container
+            services.AddScoped<IDistro, Distro>();
 
             return services;
         }
