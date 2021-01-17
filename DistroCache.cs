@@ -97,8 +97,10 @@ namespace DistroCache
             return JsonSerializer.Deserialize<List<T>>(json);
         }
 
+        public void Remove(string key) => DistributedCache.Remove(key);
 
-        private T Get<T>(string key)
+
+        public T Get<T>(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
             {
@@ -117,7 +119,7 @@ namespace DistroCache
             return response;
         }
 
-        private T Set<T>(string key, T item)
+        public T Set<T>(string key, T item)
         {
             var json = (typeof(T) == typeof(string)) ? item as string : JsonSerializer.Serialize(item);
 
@@ -125,8 +127,6 @@ namespace DistroCache
 
             return item;
         }
-
-        public void Remove(string key) => DistributedCache.Remove(key);
 
 
         public async ValueTask<T> FindAsync<T>(string arrayKey, string Id) where T : CacheItem
@@ -203,9 +203,12 @@ namespace DistroCache
 
             return await Task.FromResult(JsonSerializer.Deserialize<List<T>>(json));
         }
+        
+        public async ValueTask RemoveAsync(string key, CancellationToken cancellationToken = default) =>
+            await DistributedCache.RemoveAsync(key, cancellationToken);
 
 
-        private async ValueTask<T> GetAsync<T>(string key, CancellationToken cancellationToken = default)
+        public async ValueTask<T> GetAsync<T>(string key, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(key))
             {
@@ -222,7 +225,7 @@ namespace DistroCache
             return JsonSerializer.Deserialize<T>(json);
         }
 
-        private async ValueTask<T> SetAsync<T>(string key, T item, CancellationToken cancellationToken = default)
+        public async ValueTask<T> SetAsync<T>(string key, T item, CancellationToken cancellationToken = default)
         {
             var json = (typeof(T) == typeof(string)) ? item as string : JsonSerializer.Serialize(item);
 
@@ -231,7 +234,5 @@ namespace DistroCache
             return item;
         }
 
-        public async ValueTask RemoveAsync(string key, CancellationToken cancellationToken = default) =>
-            await DistributedCache.RemoveAsync(key, cancellationToken);
     }
 }

@@ -2,11 +2,27 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <PackOnBuild>true</PackOnBuild>
+    <Authors>Felix Kolawole</Authors>
+    <Copyright>Felix Kolawole</Copyright>
+    <PackageLicenseUrl>https://licenses.nuget.org/MIT</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Owners>Felix Kolawole</Owners>
+    <PackageProjectUrl>https://github.com/cardiogramx/DistroCache</PackageProjectUrl>
+    <PackageTags>Cache DistributeCache In-Memory Redis SQL DependencyInjection</PackageTags>
+    <Title>DistroCache</Title>
+    <PackageId>DistroCache</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Description>A extensible cache management library based on generic and IDistributedCache interfaces</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.5-dev.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>

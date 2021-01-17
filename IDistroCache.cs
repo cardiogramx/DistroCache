@@ -83,6 +83,26 @@ namespace DistroCache
 
 
         /// <summary>
+        /// Asynchronously gets the specified type of cache dictionary.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        ValueTask<T> GetAsync<T>(string key, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Asynchronously sets the specified type of cache dictionary.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="item"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        ValueTask<T> SetAsync<T>(string key, T item, CancellationToken cancellationToken = default);
+
+
+        /// <summary>
         /// Updates an item in an existing cache dictionary.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -148,5 +168,23 @@ namespace DistroCache
         /// <param name="key"></param>
         /// <returns></returns>
         List<T> List<T>(string key) where T : CacheItem;
-    }
+
+
+        /// <summary>
+        /// Gets the specified type of cache dictionary.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        T Get<T>(string key);
+
+        /// <summary>
+        /// Gets the specified type of cache dictionary.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        T Set<T>(string key, T item);
+   }
 }
