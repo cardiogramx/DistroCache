@@ -17,12 +17,12 @@ namespace DistroCache
 
         public Distro(IDistributedCache cache, IOptions<DistributedCacheEntryOptions> options)
         {
-            this.DistributedCache = cache;
-            this.entryOptions = options.Value;
+            DistributedCache = cache;
+            entryOptions = options.Value;
         }
 
 
-        public T Find<T>(string arrayKey, string Id) where T : CacheItem => List<T>(arrayKey).FirstOrDefault(c => c.Id == Id);
+        public T Find<T>(string arrayKey, string id) where T : CacheItem => List<T>(arrayKey).FirstOrDefault(c => c.Id == id);
 
         public T Update<T>(string arrayKey, T newItem) where T : CacheItem
         {
@@ -35,6 +35,7 @@ namespace DistroCache
                     if (existingItems[i].Id == newItem.Id)
                     {
                         existingItems[i] = newItem;
+                        break;
                     }
                 }
             }
@@ -44,20 +45,7 @@ namespace DistroCache
             return newItem;
         }
 
-        public void Remove<T>(string arrayKey, T item) where T : CacheItem
-        {
-            var items = List<T>(arrayKey);
-
-            if (items is not null)
-            {
-                items.Remove(item);
-
-                Replace<T>(arrayKey, items);
-            }
-        }
-
-        public void Add<T>(string key, T item) where T : CacheItem => Set<T>(key, item);
-
+       
         public void AddRange<T>(string arrayKey, IEnumerable<T> items) where T : CacheItem
         {
             if (items?.Count() > 0)
@@ -97,6 +85,39 @@ namespace DistroCache
             return JsonSerializer.Deserialize<List<T>>(json);
         }
 
+        public void Remove<T>(string arrayKey, string id) where T : CacheItem
+        {
+            var existingItems = List<T>(arrayKey);
+
+            if (existingItems?.Count > 0)
+            {
+                for (int i = 0; i < existingItems.Count; i++)
+                {
+                    if (existingItems[i].Id == id)
+                    {
+                        existingItems.RemoveAt(i);
+                        break;
+                    }
+                }
+
+                Replace<T>(arrayKey, existingItems);
+            }
+        }
+
+        public void Remove<T>(string arrayKey, T item) where T : CacheItem => Remove<T>(arrayKey, item.Id);
+
+        public void RemoveAt<T>(string arrayKey, int index) where T : CacheItem
+        {
+            var existingItems = List<T>(arrayKey);
+
+            if (existingItems?.Count > 0)
+            {
+                existingItems.RemoveAt(index);
+
+                Replace<T>(arrayKey, existingItems);
+            }
+        }
+
         public void Remove(string key) => DistributedCache.Remove(key);
 
 
@@ -119,18 +140,18 @@ namespace DistroCache
             return response;
         }
 
-        public T Set<T>(string key, T item)
+        public T Set<T>(string key, T item, DistributedCacheEntryOptions entryOptions = default)
         {
             var json = (typeof(T) == typeof(string)) ? item as string : JsonSerializer.Serialize(item);
 
-            DistributedCache.SetString(key, json, entryOptions);
+            DistributedCache.SetString(key, json, entryOptions is not null && entryOptions != default ? entryOptions : this.entryOptions);
 
             return item;
         }
 
 
-        public async ValueTask<T> FindAsync<T>(string arrayKey, string Id) where T : CacheItem
-            => (await ListAsync<T>(arrayKey)).Find(c => c.Id == Id);
+        public async ValueTask<T> FindAsync<T>(string arrayKey, string id) where T : CacheItem
+            => (await ListAsync<T>(arrayKey)).Find(c => c.Id == id);
 
         public async ValueTask UpdateAsync<T>(string arrayKey, T newItem) where T : CacheItem
         {
@@ -143,27 +164,13 @@ namespace DistroCache
                     if (existingItems[i].Id == newItem.Id)
                     {
                         existingItems[i] = newItem;
+                        break;
                     }
                 }
             }
 
             await ReplaceAsync<T>(arrayKey, existingItems);
         }
-
-        public async ValueTask RemoveAsync<T>(string arrayKey, T item) where T : CacheItem
-        {
-            var items = await ListAsync<T>(arrayKey);
-
-            if (items is not null)
-            {
-                items.Remove(item);
-
-                await ReplaceAsync<T>(arrayKey, items);
-            }
-        }
-
-        public async ValueTask AddAsync<T>(string key, T item) where T : CacheItem
-            => await SetAsync<T>(key, item);
 
         public async ValueTask AddRangeAsync<T>(string arrayKey, IEnumerable<T> items) where T : CacheItem
         {
@@ -204,6 +211,27 @@ namespace DistroCache
             return await Task.FromResult(JsonSerializer.Deserialize<List<T>>(json));
         }
 
+        public async ValueTask RemoveAsync<T>(string arrayKey, string id) where T : CacheItem
+        {
+            var existingItems = await ListAsync<T>(arrayKey);
+
+            if (existingItems?.Count > 0)
+            {
+                for (int i = 0; i < existingItems.Count; i++)
+                {
+                    if (existingItems[i].Id == id)
+                    {
+                        existingItems.RemoveAt(i);
+                        break;
+                    }
+                }
+
+                await ReplaceAsync<T>(arrayKey, existingItems);
+            }
+        }
+
+        public async ValueTask RemoveAsync<T>(string arrayKey, T item) where T : CacheItem => await RemoveAsync<T>(arrayKey, item.Id);
+
         public async ValueTask RemoveAsync(string key, CancellationToken cancellationToken = default) =>
             await DistributedCache.RemoveAsync(key, cancellationToken);
 
@@ -225,14 +253,13 @@ namespace DistroCache
             return JsonSerializer.Deserialize<T>(json);
         }
 
-        public async ValueTask<T> SetAsync<T>(string key, T item, CancellationToken cancellationToken = default)
+        public async ValueTask<T> SetAsync<T>(string key, T item, DistributedCacheEntryOptions entryOptions = default, CancellationToken cancellationToken = default)
         {
             var json = (typeof(T) == typeof(string)) ? item as string : JsonSerializer.Serialize(item);
 
-            await DistributedCache.SetStringAsync(key, json, entryOptions, cancellationToken);
+            await DistributedCache.SetStringAsync(key, json, entryOptions is not null && entryOptions != default ? entryOptions : this.entryOptions, cancellationToken);
 
             return item;
         }
-
     }
 }

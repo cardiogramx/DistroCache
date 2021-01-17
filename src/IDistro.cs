@@ -26,18 +26,9 @@ namespace DistroCache
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        ValueTask<T> FindAsync<T>(string arrayKey, string Id) where T : CacheItem;
-
-        /// <summary>
-        /// Asynchronously adds an element to cache dictionary.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="items"></param>
-        /// <returns></returns>
-        ValueTask AddAsync<T>(string key, T item) where T : CacheItem;
+        ValueTask<T> FindAsync<T>(string arrayKey, string id) where T : CacheItem;
 
         /// <summary>
         /// Asynchronously adds elements to cache dictionary.
@@ -63,6 +54,15 @@ namespace DistroCache
         /// <param name="key"></param>
         /// <returns></returns>
         ValueTask<List<T>> ListAsync<T>(string key) where T : CacheItem;
+
+        /// <summary>
+        /// Asynchronously removes an item from an existing cache dictionary. 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arrayKey"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        ValueTask RemoveAsync<T>(string arrayKey, string id) where T : CacheItem;
 
         /// <summary>
         /// Asynchronously removes an item from an existing cache dictionary.
@@ -97,9 +97,10 @@ namespace DistroCache
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="item"></param>
+        /// <param name="entryOptions"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        ValueTask<T> SetAsync<T>(string key, T item, CancellationToken cancellationToken = default);
+        ValueTask<T> SetAsync<T>(string key, T item, DistributedCacheEntryOptions entryOptions = default, CancellationToken cancellationToken = default);
 
 
         /// <summary>
@@ -116,8 +117,24 @@ namespace DistroCache
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
+        /// <param name="id"></param>
+        void Remove<T>(string arrayKey, string id) where T : CacheItem;
+
+        /// <summary>
+        /// Removes an item from an existing cache dictionary.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arrayKey"></param>
         /// <param name="newItem"></param>
-        void Remove<T>(string arrayKey, T newItem) where T : CacheItem;
+        void Remove<T>(string arrayKey, T item) where T : CacheItem;
+
+        /// <summary>
+        /// Removes an item from an existing cache dictionary at a specified index.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arrayKey"></param>
+        /// <param name="index"></param>
+        void RemoveAt<T>(string arrayKey, int index) where T : CacheItem;
 
         /// <summary>
         /// Removes an existing cache dictionary.
@@ -131,18 +148,10 @@ namespace DistroCache
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arrayKey"></param>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        T Find<T>(string arrayKey, string Id) where T : CacheItem;
+        T Find<T>(string arrayKey, string id) where T : CacheItem;
 
-        /// <summary>
-        /// Adds an element to cache dictionary.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="items"></param>
-        /// <returns></returns>
-        void Add<T>(string key, T item) where T : CacheItem;
 
         /// <summary>
         /// Adds elements to cache dictionary.
@@ -184,7 +193,8 @@ namespace DistroCache
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="item"></param>
+        /// <param name="entryOptions"></param>
         /// <returns></returns>
-        T Set<T>(string key, T item);
+        T Set<T>(string key, T item, DistributedCacheEntryOptions entryOptions = default);
    }
 }

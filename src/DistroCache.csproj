@@ -9,11 +9,11 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Owners>Felix Kolawole</Owners>
     <PackageProjectUrl>https://github.com/cardiogramx/DistroCache</PackageProjectUrl>
-    <PackageTags>Cache DistributeCache In-Memory Redis SQL DependencyInjection</PackageTags>
+    <PackageTags>DistributeCache Cache MemoryCache SqlServerCache StackExchangeRedis DistributeMemoryCache DistributeSqlServerCache StackExchangeRedisCache</PackageTags>
     <Title>DistroCache</Title>
     <PackageId>DistroCache</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
-    <Description>A generic cache management library based on IDistributedCache interfaces</Description>
+    <Description>A simple generic cache library that allows developers to easily store, retrieve and remove collections of objects in IDistributedCache. This library also allows developers store cached data in Memory, SQL and Redis.</Description>
   </PropertyGroup>
 
   <ItemGroup>
