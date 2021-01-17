@@ -64,7 +64,7 @@ namespace DistroCache
             {
                 var existingItems = List<T>(arrayKey);
 
-                if (existingItems is null)
+                if (existingItems is null || existingItems.Count < 1)
                 {
                     existingItems = new List<T>(items);
                 }
@@ -169,14 +169,14 @@ namespace DistroCache
         {
             if (items?.Count() > 0)
             {
-                var existingItems = List<T>(arrayKey);
+                var existingItems = await ListAsync<T>(arrayKey);
 
-                if (existingItems is not null)
+                if (existingItems is null || existingItems.Count < 1)
                 {
-                    existingItems.AddRange(items);
-
-                    await ReplaceAsync<T>(arrayKey, existingItems);
+                    existingItems = new List<T>(items);
                 }
+
+                await ReplaceAsync<T>(arrayKey, existingItems);
             }
         }
 
@@ -203,7 +203,7 @@ namespace DistroCache
 
             return await Task.FromResult(JsonSerializer.Deserialize<List<T>>(json));
         }
-        
+
         public async ValueTask RemoveAsync(string key, CancellationToken cancellationToken = default) =>
             await DistributedCache.RemoveAsync(key, cancellationToken);
 

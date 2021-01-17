@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.808.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistroCache", "DistroCache.csproj", "{68323D6E-92F3-40D9-8503-43FBE87F17B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistroCache", "DistroCache.csproj", "{B258A88C-601A-4C15-92EC-F5E4C6D14007}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{68323D6E-92F3-40D9-8503-43FBE87F17B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68323D6E-92F3-40D9-8503-43FBE87F17B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68323D6E-92F3-40D9-8503-43FBE87F17B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68323D6E-92F3-40D9-8503-43FBE87F17B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B258A88C-601A-4C15-92EC-F5E4C6D14007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B258A88C-601A-4C15-92EC-F5E4C6D14007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B258A88C-601A-4C15-92EC-F5E4C6D14007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B258A88C-601A-4C15-92EC-F5E4C6D14007}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B87B6710-37C9-4CF6-A7C1-8030F93160A3}
+		SolutionGuid = {5336D507-8C1E-4E12-BBE7-C65250231F7E}
 	EndGlobalSection
 EndGlobal
