@@ -26,7 +26,7 @@ namespace DistroCache
 
         public T Update<T>(string arrayKey, T newItem) where T : CacheItem
         {
-            var existingItems = List<T>(arrayKey).ToList();
+            var existingItems = List<T>(arrayKey);
 
             if (existingItems is not null && existingItems.Count > 0)
             {

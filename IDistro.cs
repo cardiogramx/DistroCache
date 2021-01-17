@@ -10,7 +10,7 @@ namespace DistroCache
         /// <summary>
         /// Gets the underlying <see cref="IDistributedCache"/> implementation.
         /// </summary>
-        public IDistributedCache DistributedCache { get; }
+        IDistributedCache DistributedCache { get; }
 
         /// <summary>
         /// Asynchronously updates an item in an existing cache dictionary.

@@ -13,7 +13,7 @@
     <Title>DistroCache</Title>
     <PackageId>DistroCache</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
-    <Description>A extensible cache management library based on generic and IDistributedCache interfaces</Description>
+    <Description>A generic cache management library based on IDistributedCache interfaces</Description>
   </PropertyGroup>
 
   <ItemGroup>
